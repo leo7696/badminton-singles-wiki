@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>羽球單打基礎戰術與步法入門｜LLM Wiki 教學簡報</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --ink: #181a1b;
+      --muted: #5c636a;
+      --line: #d6dbe0;
+      --accent: #0f766e;
+      --accent-soft: #e6f4f1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Top progress bar */
+    .progress-bar {
+      height: 4px;
+      background: var(--line);
+      width: 100%;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      width: 10%;
+      transition: width 0.25s ease;
+    }
+    /* Slide stage */
+    .stage {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 56px;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 980px;
+      min-height: 520px;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeIn 0.22s ease;
+    }
+    .slide.active { display: flex; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-size: 2.6rem;
+      line-height: 1.25;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-size: 1.9rem;
+      line-height: 1.3;
+      font-weight: 700;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 24px;
+    }
+    p.lead {
+      font-size: 1.18rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 780px;
+    }
+    .content { flex: 1; }
+    /* Line-divided layout */
+    .split {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+    .col-right {
+      border-left: 1px solid var(--line);
+      padding-left: 32px;
+    }
+    ul.clean-list {
+      list-style: none;
+    }
+    ul.clean-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 1.08rem;
+      line-height: 1.65;
+    }
+    ul.clean-list li:last-child { border-bottom: none; }
+    .label {
+      font-weight: 700;
+      color: var(--accent);
+      margin-right: 6px;
+    }
+    /* Flow steps */
+    .flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 20px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      margin: 18px 0 24px;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 8px 14px;
+      border-bottom: 3px solid var(--accent);
+    }
+    .flow-arrow { color: var(--muted); font-weight: 700; }
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 1.02rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--line);
+      line-height: 1.55;
+    }
+    th {
+      border-bottom: 2px solid var(--ink);
+      font-weight: 700;
+      color: var(--ink);
+    }
+    /* Callout */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      padding: 14px 18px;
+      margin-top: 18px;
+      font-size: 1.02rem;
+      line-height: 1.6;
+    }
+    /* Slide footer */
+    .slide-meta {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .ref-tag {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: var(--accent);
+    }
+    /* Controls */
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 36px;
+      border-top: 1px solid var(--line);
+      background: #ffffff;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .btn-group { display: flex; gap: 10px; }
+    button {
+      background: #ffffff;
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      padding: 7px 16px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: var(--ink); color: #ffffff; }
+    button:disabled { opacity: 0.35; cursor: not-allowed; }
+    /* Court SVG */
+    .court-wrap { text-align: center; }
+    .court-caption { font-size: 0.88rem; color: var(--muted); margin-top: 8px; }
+    @media (max-width: 780px) {
+      .stage { padding: 20px; }
+      .split { grid-template-columns: 1fr; gap: 20px; }
+      .col-right { border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 18px; }
+      h1 { font-size: 1.9rem; }
+      h2 { font-size: 1.45rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <main class="stage">
+    <!-- Slide 1 -->
+    <section class="slide active">
+      <div class="content" style="display:flex; flex-direction:column; justify-content:center;">
+        <div class="eyebrow">LLM Wiki 教學簡報｜新手入門</div>
+        <h1>羽球單打基礎戰術與步法入門</h1>
+        <p class="lead">
+          給第一次接觸單打的你：從看懂「窄而長」的場地界線開始，建立「啟動 → 移動 → 回中」的步法習慣，最後學會用拉吊與節奏掌控比賽。
+        </p>
+        <div class="callout" style="max-width:680px; margin-top:28px;">
+          <strong>本簡報知識來源：</strong>完整建構於個人 LLM Wiki（收錄 5 篇羽球規則、運動學論文與戰術教材），每一頁右下角皆標註對應條目。
+        </div>
+      </div>
+      <div class="slide-meta">
+        <span>使用鍵盤 ← / → 或下方按鈕換頁</span>
+        <span class="ref-tag">Ref: README.md</span>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide">
+      <div class="content">
+        <div class="eyebrow">01 / 學習地圖</div>
+        <h2>新手學單打，只要先抓這 3 件事</h2>
+        <ul class="clean-list">
+          <li><span class="label">1. 空間觀念（界線與站位）</span>先分清楚單打有效範圍，並養成打完球回到「中心站位」的習慣。</li>
+          <li><span class="label">2. 移動節奏（啟動步與回動）</span>跑得快不如「啟動得準」，學會用完整步法迴圈省下體力。</li>
+          <li><span class="label">3. 戰術思維（先拉吊、再突擊）</span>單打不是有球就殺，懂得調動對手重心，機會才會自然出現。</li>
+        </ul>
+      </div>
+      <div class="slide-meta">
+        <span>教學結構總覽</span>
+        <span class="ref-tag">Ref: README.md</span>
+      </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide">
+      <div class="content">
+        <div class="eyebrow">02 / 場地規則</div>
+        <h2>單打界線口訣：「窄而長」</h2>
+        <div class="split">
+          <div>
+            <ul class="clean-list">
+              <li><span class="label">左右看內線</span>雙打會用到最外側邊線，但單打只算<strong>內側邊線</strong>以內。</li>
+              <li><span class="label">前後看最外底線</span>無論發球還是對打，後場都算到<strong>最外側底線</strong>。</li>
+              <li><span class="label">新手常見誤判</span>剛從雙打轉單打時，最常把「外側邊線」當界內，或發球時誤以為後場長線出界。</li>
+            </ul>
+          </div>
+          <div class="col-right court-wrap">
+            <svg viewBox="0 0 240 280" width="210" height="245" aria-label="羽球單打有效區域圖示">
+              <!-- Outer doubles court -->
+              <rect x="20" y="15" width="200" height="250" fill="#eef1f4" stroke="#9aa3ad" stroke-width="2"/>
+              <!-- Singles valid area (narrow & long) -->
+              <rect x="42" y="15" width="156" height="250" fill="#d9f2ec" stroke="#0f766e" stroke-width="3"/>
+              <!-- Net -->
+              <line x1="20" y1="140" x2="220" y2="140" stroke="#181a1b" stroke-width="3" stroke-dasharray="6 4"/>
+              <!-- Short service lines -->
+              <line x1="20" y1="95" x2="220" y2="95" stroke="#9aa3ad" stroke-width="1.5"/>
+              <line x1="20" y1="185" x2="220" y2="185" stroke="#9aa3ad" stroke-width="1.5"/>
+              <!-- Center line -->
+              <line x1="120" y1="15" x2="120" y2="95" stroke="#9aa3ad" stroke-width="1.5"/>
+              <line x1="120" y1="185" x2="120" y2="265" stroke="#9aa3ad" stroke-width="1.5"/>
+              <!-- Base position dot -->
+              <circle cx="120" cy="212" r="6" fill="#0f766e"/>
+              <text x="120" y="232" text-anchor="middle" font-size="11" fill="#0f766e" font-weight="700">中心站位</text>
+              <text x="120" y="60" text-anchor="middle" font-size="12" fill="#0f766e" font-weight="700">單打有效區（窄而長）</text>
+            </svg>
+            <div class="court-caption">綠色區域為單打對打有效範圍</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-meta">
+        <span>規則與空間認知</span>
+        <span class="ref-tag">Ref: concepts/base-and-boundaries.md</span>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide">
+      <div class="content">
+        <div class="eyebrow">03 / 中心站位</div>
+        <h2>為什麼每打完一球都要「回中」？</h2>
+        <div class="split">
+          <div>
+            <ul class="clean-list">
+              <li><span class="label">一個人守全場</span>沒有隊友補位，站在角落等於把另外三個角落拱手讓人。</li>
+              <li><span class="label">位置在哪裡？</span>場地正中央<strong>稍微偏後半步</strong>，兼顧前場撲救與後場退防。</li>
+            </ul>
+          </div>
+          <div class="col-right">
+            <ul class="clean-list">
+              <li><span class="label">常見錯誤</span>打完球留在原地「欣賞自己的球路」，等對手回球才開始跑。</li>
+              <li><span class="label">正確心態</span>回中不是站死在某一點，而是回到「用最少步數覆蓋四個角落」的平衡點。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-meta">
+        <span>防守覆蓋原則</span>
+        <span class="ref-tag">Ref: concepts/base-and-boundaries.md</span>
+      </div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide">
+      <div class="content">
+        <div class="eyebrow">04 / 步法架構</div>
+        <h2>單打步法是一個「閉環」，不是單程票</h2>
+        <div class="flow-row">
+          <div class="flow-step">1. 中心站位</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">2. 啟動步</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">3. 墊步與推蹬</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">4. 擊球</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">5. 反推回動</div>
+        </div>
+        <ul class="clean-list">
+          <li><span class="label">前場煞車細節</span>最後一步跨出時<strong>腳跟先著地、膝蓋不超過腳尖</strong>，既保護膝蓋，又能順勢反推回位。</li>
+          <li><span class="label">核心觀念</span>「擊球」只是這趟移動的中點，<strong>安全回到中心站位</strong>才算完成一拍。</li>
+        </ul>
+      </div>
+      <div class="slide-meta">
+        <span>完整移動迴圈</span>
+        <span class="ref-tag">Ref: concepts/footwork-loop.md</span>
+      </div>
+    </section>
+
+    <!-- Slide 6 -->
+    <section class="slide">
+      <div class="content">
+        <div class="eyebrow">05 / 啟動步 Split Step</div>
+        <h2>快人一步的秘密：在對手擊球瞬間「微跳壓低」</h2>
+        <div class="split">
+          <div>
+            <ul class="clean-list">
+              <li><span class="label">什麼是啟動步？</span>對手擊球瞬間，雙腳微幅離地並向兩側分開落地，同時膝蓋微彎壓低重心。</li>
+              <li><span class="label">為什麼有效？</span>就像彈簧先壓縮再彈出，讓往四個角落踏出的第一步爆發力最大化。</li>
+            </ul>
+          </div>
+          <div class="col-right">
+            <div class="callout" style="margin-top:0;">
+              <strong>運動學研究數據：</strong><br/>
+              高水準選手多在對手擊球後約 <strong>14～36 毫秒</strong>內完成離地啟動，雙腳落地瞬間剛好判斷出球路方向，直接蹬地出發。
+            </div>
+            <p style="margin-top:16px; color:var(--muted); line-height:1.6;">
+              新手練習口訣：對手一揮拍，你就「小跳一下、重心沉下去」，不要直挺挺站著等球。
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-meta">
+        <span>啟動時機與爆發力</span>
+        <span class="ref-tag">Ref: concepts/footwork-loop.md, sources/02</span>
+      </div>
+    </section>
+
+    <!-- Slide 7 -->
+    <section class="slide">
+      <div class="content">
+        <div class="eyebrow">06 / 戰術觀念</div>
+        <h2>新手最大迷思：單打不是「有球就殺」</h2>
+        <div class="split">
+          <div>
+            <ul class="clean-list">
+              <li><span class="label">盲目殺球的代價</span>每拍都全力殺球，體力半局就見底。</li>
+              <li><span class="label">更容易陷入被動</span>殺球沒殺死時，自己重心向前衝，對手只要輕輕挑到後場，你就會完全來不及退防。</li>
+            </ul>
+          </div>
+          <div class="col-right">
+            <div class="callout" style="margin-top:0;">
+              <strong>單打核心思維：</strong><br/>
+              先用高遠球與吊球（切球）讓對手前後奔跑，等對手體力下降、回出「不夠深的半場球」時，再一拍突擊得分。
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-meta">
+        <span>打破錯誤觀念</span>
+        <span class="ref-tag">Ref: concepts/singles-tactics.md</span>
+      </div>
+    </section>
+
+    <!-- Slide 8 -->
+    <section class="slide">
+      <div class="content">
+        <div class="eyebrow">07 / 戰術三階段</div>
+        <h2>實戰節奏：拉吊消耗 → 被動過渡 → 抓時機突擊</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:22%;">比賽階段</th>
+              <th style="width:30%;">常用球路</th>
+              <th>戰術目的</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. 建立優勢（拉吊）</strong></td>
+              <td>高遠球、吊球（切球）、四角球</td>
+              <td>迫使對手前後左右折返跑，消耗體力並破壞重心。</td>
+            </tr>
+            <tr>
+              <td><strong>2. 被動自救（過渡）</strong></td>
+              <td>高遠球、挑高球、擋網</td>
+              <td>處於劣勢時絕不硬殺，把球打深打高替自己爭取回中時間。</td>
+            </tr>
+            <tr>
+              <td><strong>3. 終結得分（突擊）</strong></td>
+              <td>殺球 + 上網撲球、快拉快吊</td>
+              <td>趁對手回球不到位（半場球）或重心後退時，突然加速得分。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="slide-meta">
+        <span>攻守轉換邏輯</span>
+        <span class="ref-tag">Ref: concepts/singles-tactics.md</span>
+      </div>
+    </section>
+
+    <!-- Slide 9 -->
+    <section class="slide">
+      <div class="content">
+        <div class="eyebrow">08 / 打法速查</div>
+        <h2>單打五大基本打法</h2>
+        <ul class="clean-list">
+          <li><span class="label">1. 控後場壓底</span>用高遠球把對手壓在底線，爭取自己的回防與觀察時間。</li>
+          <li><span class="label">2. 打四角球</span>輪流攻擊前左、前右、後左、後右四個角落，拉開對手跑動距離。</li>
+          <li><span class="label">3. 殺上網</span>後場重殺後立刻跟進網前，準備撲球或放網終結。</li>
+          <li><span class="label">4. 快拉快吊</span>用平高球與快速切球加快節奏，打亂對手步法。</li>
+          <li><span class="label">5. 守中反攻</span>先穩穩防守過渡，等對手進攻失誤或體力下滑再反擊。</li>
+        </ul>
+      </div>
+      <div class="slide-meta">
+        <span>經典戰術分類</span>
+        <span class="ref-tag">Ref: sources/04-basic-shots-and-tactics.md</span>
+      </div>
+    </section>
+
+    <!-- Slide 10 -->
+    <section class="slide">
+      <div class="content">
+        <div class="eyebrow">09 / 總結與練習</div>
+        <h2>下次上場，先做好這 3 件事就夠了</h2>
+        <ul class="clean-list">
+          <li><span class="label">Check 1</span>打完每一拍，強迫自己立刻回到「中心偏後半步」。</li>
+          <li><span class="label">Check 2</span>對手揮拍瞬間做一次「啟動步」，膝蓋微彎不要站直。</li>
+          <li><span class="label">Check 3</span>被動時乖乖打高遠球過渡，等到對手回球變淺再進攻。</li>
+        </ul>
+        <div class="callout">
+          <strong>想深入查看原始論文與教材？</strong> 請回到本專案 GitHub Wiki 的 <code>sources/</code> 資料夾，內含 5 篇完整來源連結與摘要。
+        </div>
+      </div>
+      <div class="slide-meta">
+        <span>完｜感謝觀看</span>
+        <span class="ref-tag">Ref: README.md, sources/01~05</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="controls">
+    <div id="slideCounter">Slide 1 / 10</div>
+    <div class="btn-group">
+      <button id="prevBtn">← 上一頁</button>
+      <button id="nextBtn">下一頁 →</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const counter = document.getElementById('slideCounter');
+    const progressFill = document.getElementById('progressFill');
+    let current = 0;
+
+    function render(index) {
+      slides.forEach((s, i) => s.classList.toggle('active', i === index));
+      counter.textContent = `Slide ${index + 1} / ${slides.length}`;
+      progressFill.style.width = `${((index + 1) / slides.length) * 100}%`;
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === slides.length - 1;
+    }
+
+    prevBtn.addEventListener('click', () => { if (current > 0) render(--current); });
+    nextBtn.addEventListener('click', () => { if (current < slides.length - 1) render(++current); });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        if (current < slides.length - 1) render(++current);
+      } else if (e.key === 'ArrowLeft') {
+        if (current > 0) render(--current);
+      }
+    });
+
+    render(0);
+  </script>
+</body>
+</html>
